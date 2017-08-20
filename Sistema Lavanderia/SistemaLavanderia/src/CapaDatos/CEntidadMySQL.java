@@ -708,25 +708,32 @@ public class CEntidadMySQL extends CConexionMySQL{
     }
     public void EjecutarProcedimiento(String nombre_procedimiento, Object[][] datos) throws SQLException
     {
-        String  sentencia= "{call "+nombre_procedimiento+" (";
+        String  sentencia= "{call "+nombre_procedimiento;
         if(datos != null){
+            sentencia=sentencia +" (";
             for(int i=0; i<datos.length;i++){
                 sentencia=sentencia+"?,";
             }
-        sentencia= sentencia.substring(0,sentencia.length()-1)+")}";
+            sentencia= sentencia.substring(0,sentencia.length()-1)+")}";
         }
-        else sentencia= sentencia+")}";
-        CallableStatement cst = conexion.prepareCall(sentencia);
-
-        for(int i=0; i<datos.length;i++)
+        else
         {
-            if(EsVarchar((String) datos[i][1]))
+            sentencia=sentencia+"}";
+        }
+        
+        CallableStatement cst = conexion.prepareCall(sentencia);
+        if(datos!= null)
+        {
+            for(int i=0; i<datos.length;i++)
             {
-                cst.setString(i, (String) datos[i][0]);
-            }
-            else
-            {
-                cst.setInt(i, (int) datos[i][0]);
+                if(EsVarchar((String) datos[i][1]))
+                {
+                    cst.setString(i, (String) datos[i][0]);
+                }
+                else
+                {
+                    cst.setInt(i, (int) datos[i][0]);
+                }
             }
         }
                            
