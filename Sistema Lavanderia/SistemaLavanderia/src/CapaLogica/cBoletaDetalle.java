@@ -15,9 +15,11 @@ public class cBoletaDetalle {
     public double PrecioUnitario;
     public int IdPrenda ;
  
-    cDatos oDatos = new cDatos();
+    cDatos oDatos;// = new cDatos();
     public String Mensaje;
-    
+    public cBoletaDetalle(cDatos oConexion) {
+        this.oDatos = oConexion;
+    }
     public boolean EntregarTicket() throws ClassNotFoundException, SQLException
     {
         ArrayList<Object> lis=new ArrayList<>();
