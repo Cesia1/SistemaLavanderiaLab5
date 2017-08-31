@@ -78,6 +78,7 @@ public class frmBienvenida extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new frmBienvenida().setVisible(true);
+                new frmPresentacion().setVisible(true);
             }
         });
     }

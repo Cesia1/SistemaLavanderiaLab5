@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 
 public class FrmLogin extends javax.swing.JFrame {
@@ -22,7 +24,15 @@ public class FrmLogin extends javax.swing.JFrame {
         
     public FrmLogin() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
+    
+    public Image getIconImage()
+    {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagenes/edit_user.png"));
+        return retValue;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,178 +43,139 @@ public class FrmLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
+        btnSalir = new javax.swing.JButton();
+        lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOGIN");
+        setIconImage(getIconImage());
+        setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Sistema de Lavanderia SERVICLEAN");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 443, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Usuario:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Password:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, -1, -1));
 
+        txtUsuario.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        txtUsuario.setText("cesia");
+        getContentPane().add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 143, -1));
+
+        btnAceptar.setBackground(new java.awt.Color(255, 153, 0));
         btnAceptar.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/agt_action_success.png"))); // NOI18N
-        btnAceptar.setText("Aceptar");
+        btnAceptar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/button_ok.png"))); // NOI18N
+        btnAceptar.setText("Iniciar Sesion");
         btnAceptar.setAutoscrolls(true);
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
             }
         });
+        getContentPane().add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 250, 190, -1));
 
-        btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/button_cancel.png"))); // NOI18N
-        btnCancelar.setText("Cancelar");
-        btnCancelar.setAutoscrolls(true);
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/LOGIN.png"))); // NOI18N
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 250, 270));
+
+        txtPassword.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        txtPassword.setText("123456");
+        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 190, 143, -1));
+
+        btnSalir.setBackground(new java.awt.Color(255, 153, 0));
+        btnSalir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, -1, -1));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/User.jpg"))); // NOI18N
-
-        txtPassword.setText("jPasswordField1");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(79, 79, 79)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(btnCancelar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5)
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(78, 78, 78)))
-                .addContainerGap(70, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jLabel2)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(48, 48, 48)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar))
-                .addGap(37, 37, 37))
-        );
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IMG_64851.png"))); // NOI18N
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 340));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
-//        i++;
-//            if (i <= 3)
-//           {
-        
+       
                 oUsuario.Usuario = txtUsuario.getText();
-                oUsuario.Contrasenia = Arrays.toString(txtPassword.getPassword());
+                char pass[] = txtPassword.getPassword();
+                String pas="";
                 
-             {
+                /**for (int j=0;j<pass.length;j++){
+                    pas+=pass[j];
+                }**/
+                oUsuario.Contrasenia = txtPassword.getText();
+             
                     try {
-                        if (oUsuario.verificarusuario()== true)
-                        {
-                            if (oUsuario.bienvenidausuario())
+                        try {
+                            if (oUsuario.verificarusuario()== true)
                             {
-                                flag = true;
-                                Cargo = oUsuario.devolverCargo();
-                                Usuario = oUsuario.Usuario;
-                                //this.DialogResult = DialogResult.OK;
-                                
-                                //Hide();
-                                frmBienvenida ofrmBienvenida = new frmBienvenida();
-                                ofrmBienvenida.setVisible(true);
-                                //WaitSeconds(2.50);
-                                //ofrmBienvenida.Close();
-                                //Close();
+                                if (oUsuario.bienvenidausuario())
+                                {
+                                    flag = true;
+                                    Cargo = oUsuario.devolverCargo();
+                                    Usuario = oUsuario.Usuario;
+                                    //this.DialogResult = DialogResult.OK;
+                                    
+                                    //Hide();
+                                    frmBienvenida ofrmBienvenida = new frmBienvenida();
+                                    ofrmBienvenida.setVisible(true);
+                                    frmPrincipal oPrincipal = new frmPrincipal();
+                                    oPrincipal.setVisible(true);
+                                    ofrmBienvenida.setVisible(false);
+                                    
+                                }
+                                else
+                                {
+                                    JOptionPane.showMessageDialog(null, "Datos erroneos, intenetlo de nuevo");
+                                    txtUsuario.setText("");
+                                    txtPassword.setText("");
+                                    
+                                }
                             }
                             else
                             {
-                                JOptionPane.showMessageDialog(null, "ADVERTENCIA");
-                                //XtraMessageBox.Show(oUsuario.mensaje, "ADVERTENCIA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                txtUsuario.setText("");
+
                                 txtPassword.setText("");
-                                t--;
+                                JOptionPane.showMessageDialog(null,"El usuario no existe, intentelo de nuevo");
+                                
                             }
-                        }
-                        else
-                        {
-                            //XtraMessageBox.Show(oUsuario.mensaje + "\n Vuelva a intentarlo otra vez", "ADVERTENCIA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtPassword.setText("");
-                            
-                            t--;
-                            //timer2.Enabled = true;
-                        }
 //             } catch (SQLException ex) {
 //                 Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     } catch (SQLException ex) {
                         Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
                     }
-             }
-            //}
-//            else
-//            {
-//                //XtraMessageBox.Show("Número de intentos agotado espere 10 segundos", "ADVERTENCIA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-//                this.setEnabled(false);
-//                //tiempo = 40;
-//                //WaitSeconds(10);
-//                this.setEnabled (true);
-//            }
-//        
+                        
+       
     }//GEN-LAST:event_btnAceptarActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-      
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        System.exit(0);
+        
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -244,12 +215,12 @@ public class FrmLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
-    private javax.swing.JButton btnCancelar;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel lblFondo;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables

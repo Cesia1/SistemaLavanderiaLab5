@@ -1,12 +1,21 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package CapaLogica;
 
-package capalogica;
-
+import CapaDatos.cDatos;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import CapaDatos.*;
 
+/**
+ *
+ * @author UNSAAC
+ */
 public class cCliente {
     public String IdCliente ;
     public String Nombres ;
@@ -17,76 +26,94 @@ public class cCliente {
     cDatos oDatos = new cDatos();
     public String mensaje;
     
-    public boolean insertar()
+    public boolean insertar() throws ClassNotFoundException, SQLException
     {
-        ResultSet oFila = oDatos.TraerDataRow("spuInsertarCliente", IdCliente,  DNI,Nombres, Apellidos,  Telefono, Direccion);
-        try {
-            oFila.next();
-            int CodError = oFila.getInt("CodError");
-            mensaje = oFila.getString("Mensaje");
-            if (CodError == 0)
-                return true;
-            else
-                return false;
-        } catch (Exception e) {
-            System.out.println("Error insertar en cCliente");
-            System.out.println(e);
+        ArrayList<Object> lis=new ArrayList<>();
+        lis.add(IdCliente);
+        lis.add(DNI);
+        lis.add(Nombres);
+        lis.add(Apellidos);
+        lis.add(Telefono);
+        lis.add(Direccion);
+        oDatos.Conectar();
+        ResultSet oFila = oDatos.llamarProcedimiento("spuInsertarCliente", lis);
+        oFila.next();
+        int CodError = Integer.parseInt(oFila.getString("CodError"));
+        mensaje = oFila.getString("Mensaje");
+        oDatos.Desconectar();
+        if (CodError == 0)
+            return true;
+        else
             return false;
-        }
         
     }
-    public ResultSet Listar()
+    public ResultSet Listar() throws ClassNotFoundException, SQLException
     {
-        return oDatos.TraerDataTable("spuListarCliente");
+        oDatos.Conectar();
+        ResultSet rs=oDatos.llamarProcedimiento("spuListarCliente",null);
+        oDatos.Desconectar();
+        return rs;
     }
-    public ResultSet ListarEmpleado()
+    public ResultSet ListarEmpleado() throws SQLException, ClassNotFoundException
     {
-        return oDatos.TraerDataTable("spuListarClienteHabilitado");
+        oDatos.Conectar();
+        ResultSet rs=oDatos.llamarProcedimiento("spuListarClienteHabilitado",null);
+        oDatos.Desconectar();
+        return rs;
     }
-    public ResultSet Buscar(String Campo,String Contenido)
+    public ResultSet Buscar(String Campo,String Contenido) throws SQLException, ClassNotFoundException
     {
-        return oDatos.TraerDataTable("spuBuscarCliente", Campo, Contenido);
+        ArrayList<Object> lis=new ArrayList<>();
+        lis.add(Campo);
+        lis.add(Contenido);  
+        oDatos.Conectar();
+        ResultSet rs=oDatos.llamarProcedimiento("spuBuscarCliente",lis);
+        oDatos.Desconectar();
+        return rs;
     }
-    public boolean modificar()
+    public boolean modificar() throws SQLException, ClassNotFoundException
     {
-        ResultSet oFila = oDatos.TraerDataRow("spuModificarCliente", IdCliente,  DNI,Nombres, Apellidos, Telefono,  Direccion);
-        try {
-            oFila.next();
-            int CodError = oFila.getInt("CodError");
-            mensaje = oFila.getString("Mensaje");
-            if (CodError == 0)
-                return true;
-            else
-                return false;
-        } catch (SQLException ex) {
-            System.out.println("Error modificar en cCliente");
-            System.out.println(ex);
-            Logger.getLogger(cCliente.class.getName()).log(Level.SEVERE, null, ex);
+        ArrayList<Object> lis=new ArrayList<>();
+        lis.add(IdCliente);
+        lis.add(DNI);
+        lis.add(Nombres);
+        lis.add(Apellidos); 
+        lis.add(Telefono);  
+        lis.add(Direccion);
+        oDatos.Conectar();
+        ResultSet oFila = oDatos.llamarProcedimiento("spuModificarCliente", lis);
+        oFila.next();
+        int CodError = Integer.parseInt(oFila.getString("CodError"));
+        mensaje = oFila.getString("Mensaje");
+        oDatos.Desconectar();
+        if (CodError == 0)
+            return true;
+        else
             return false;
-        }
       
     }
-    public boolean deshabilitar()
+    public boolean deshabilitar() throws ClassNotFoundException, SQLException
     {
-        ResultSet oFila = oDatos.TraerDataRow("spuDeshabilitarCliente", IdCliente);
-        try {
-            oFila.next();
-            int CodError = oFila.getInt("CodError");
-            mensaje = oFila.getString("Mensaje");
-            if (CodError == 0)
-                return true;
-            else
-                return false;
-        } catch (SQLException ex) {
-            System.out.println("Error deshabilitar en cCliente");
-            System.out.println(ex);
-            Logger.getLogger(cCliente.class.getName()).log(Level.SEVERE, null, ex);
+        ArrayList<Object> lis=new ArrayList<>();
+        lis.add(IdCliente);
+        ResultSet oFila = oDatos.llamarProcedimiento("spuDeshabilitarCliente", lis);
+        oFila.next();
+        int CodError = Integer.parseInt(oFila.getString("CodError"));
+        mensaje = oFila.getString("Mensaje");
+        oDatos.Desconectar();
+        if (CodError == 0)
+            return true;
+        else
             return false;
-        }
         
     }
-    public String generarCodigo()
+    public String generarCodigo() throws SQLException, ClassNotFoundException
     {
-        return oDatos.TraerValor("spuGenerarCodigoCliente").ToString();
+        oDatos.Conectar();
+        ResultSet rs=oDatos.llamarProcedimiento("spuGenerarCodigoCliente", null);
+        oDatos.Desconectar();
+        rs.next();
+        String Codigo=rs.getString("@Sgte");
+        return Codigo;
     }
 }

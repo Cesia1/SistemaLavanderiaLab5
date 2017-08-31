@@ -1,8 +1,10 @@
 
 package capalogica;
 
+import CapaDatos.cDatos;
 import java.sql.ResultSet;
-import CapaDatos.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class cBoletaDetalle {
     public String DocEntrada ;
@@ -16,14 +18,24 @@ public class cBoletaDetalle {
     cDatos oDatos = new cDatos();
     public String Mensaje;
     
-    public boolean EntregarTicket()
+    public boolean EntregarTicket() throws ClassNotFoundException, SQLException
     {
-        ResultSet oFila = oDatos.TraerDataRow("spuBoleta_Detalle_Insertar", DocEntrada, Cantidad, PrecioUnitario, IdPrenda, Observacion, NroBoleta);
-        try {
-             Mensaje = oFila.getString("Mensaje");
-             return oFila.getString("codError")=="0";
-         } catch (Exception e) {
-             System.out.println("Error en clase cBoletaDetalle en Entregar ticket");
-             System.out.println(e);
-         }
-        }
+        ArrayList<Object> lis=new ArrayList<>();
+        lis.add(DocEntrada);
+        lis.add(Cantidad);
+        lis.add(PrecioUnitario);
+        lis.add(IdPrenda);
+        lis.add(Observacion);
+        lis.add(NroBoleta);
+        oDatos.Conectar();
+        ResultSet oFila = oDatos.llamarProcedimiento("spuBoleta_Detalle_Insertar",lis);
+        oDatos.Desconectar();
+        oFila.next();
+        int CodError = Integer.parseInt(oFila.getString("CodError"));
+        Mensaje = oFila.getString("Mensaje");
+        if (CodError == 0)
+            return true;
+        else
+            return false;
+    }
+}

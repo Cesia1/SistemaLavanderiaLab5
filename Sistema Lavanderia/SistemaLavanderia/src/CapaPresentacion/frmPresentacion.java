@@ -5,6 +5,9 @@
  */
 package CapaPresentacion;
 
+//import CapaPresentacion.Matenimientos.Cliente.frmNuevoCliente;
+
+
 /**
  *
  * @author Cesia
@@ -14,6 +17,8 @@ public class frmPresentacion extends javax.swing.JFrame {
     String Texto = "";
     String Puesto;
     String user;
+    
+    
         //region AtributosCliente
 //        CapaPresentacion.MantenimientoCliente.frmNuevoCliente ofrmNuevoCliente = new CapaPresentacion.MantenimientoCliente.frmNuevoCliente();
 //        CapaPresentacion.MantenimientoCliente.frmMostrarClientes ofrmMostarCliente = new CapaPresentacion.MantenimientoCliente.frmMostrarClientes();
@@ -1147,6 +1152,8 @@ public class frmPresentacion extends javax.swing.JFrame {
     
  public frmPresentacion() {
         initComponents();
+//        panelPrueba a = new panelPrueba();
+//        ifVentana.setContentPane(a);
     }
 
     /**
@@ -1168,6 +1175,7 @@ public class frmPresentacion extends javax.swing.JFrame {
         btnNuevoCliente14 = new javax.swing.JButton();
         btnNuevoCliente15 = new javax.swing.JButton();
         btnNuevoCliente16 = new javax.swing.JButton();
+        alphaPainter1 = new org.jdesktop.swingx.painter.AlphaPainter();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jToolBar7 = new javax.swing.JToolBar();
@@ -1226,9 +1234,11 @@ public class frmPresentacion extends javax.swing.JFrame {
         btnNuevoCliente123 = new javax.swing.JButton();
         btnNuevoCliente124 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
+        ifVentana = new javax.swing.JInternalFrame();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
+        jMenu8 = new javax.swing.JMenu();
 
         jMenu1.setText("jMenu1");
 
@@ -1326,6 +1336,11 @@ public class frmPresentacion extends javax.swing.JFrame {
         btnClienteNuevo.setText("Nuevo");
         btnClienteNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnClienteNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClienteNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClienteNuevoActionPerformed(evt);
+            }
+        });
 
         btnClienteGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save.png"))); // NOI18N
         btnClienteGuardar.setText("Guardar");
@@ -1336,6 +1351,11 @@ public class frmPresentacion extends javax.swing.JFrame {
         btnClienteCancelar.setText("Cancelar");
         btnClienteCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnClienteCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClienteCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClienteCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
         jPanel24.setLayout(jPanel24Layout);
@@ -1361,6 +1381,11 @@ public class frmPresentacion extends javax.swing.JFrame {
         btnClienteListar.setText("Listar Clientes");
         btnClienteListar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnClienteListar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClienteListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClienteListarActionPerformed(evt);
+            }
+        });
 
         btnClienteActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reload_page.png"))); // NOI18N
         btnClienteActualizar.setText("Actualizar");
@@ -1388,6 +1413,11 @@ public class frmPresentacion extends javax.swing.JFrame {
         btnClienteModificar.setText("Modificar Cliente");
         btnClienteModificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnClienteModificar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClienteModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClienteModificarActionPerformed(evt);
+            }
+        });
 
         btnClienteModificarListo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/edit_group.png"))); // NOI18N
         btnClienteModificarListo.setText("Modificar");
@@ -1628,7 +1658,7 @@ public class frmPresentacion extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 16, Short.MAX_VALUE))
+                .addGap(0, 28, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("USUARIO", jPanel5);
@@ -1820,11 +1850,27 @@ public class frmPresentacion extends javax.swing.JFrame {
         jTabbedPane1.addTab("tab3", jPanel1);
         jTabbedPane1.addTab("tab4", jScrollPane1);
 
+        ifVentana.setVisible(true);
+
+        javax.swing.GroupLayout ifVentanaLayout = new javax.swing.GroupLayout(ifVentana.getContentPane());
+        ifVentana.getContentPane().setLayout(ifVentanaLayout);
+        ifVentanaLayout.setHorizontalGroup(
+            ifVentanaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1245, Short.MAX_VALUE)
+        );
+        ifVentanaLayout.setVerticalGroup(
+            ifVentanaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 369, Short.MAX_VALUE)
+        );
+
         jMenu4.setText("File");
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Edit");
         jMenuBar1.add(jMenu5);
+
+        jMenu8.setText("jMenu8");
+        jMenuBar1.add(jMenu8);
 
         setJMenuBar(jMenuBar1);
 
@@ -1833,15 +1879,19 @@ public class frmPresentacion extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ifVentana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 294, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ifVentana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -1859,17 +1909,34 @@ public class frmPresentacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClienteInicioActionPerformed
 
     private void btnClienteSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteSalirActionPerformed
-        // TODO add your handling code here:
-        // rbCliente.setVisible = false;
-          //  ofmInicio.setVisible = true;
-            //ofrmMostarCliente.setVisible( false);
-            //ofrmNuevoCliente.Visible = false;
-            //ofrmModificarCliente.Visible = false;
-            //ofrmEliminarCliente.Visible=false;
-            //ofrmCliente.Visible = false;
-        
+        this.setVisible(false);
         
     }//GEN-LAST:event_btnClienteSalirActionPerformed
+
+    private void btnClienteNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteNuevoActionPerformed
+        // TODO add your handling code here:
+        pNuevoCliente nc = new pNuevoCliente();
+        ifVentana.setContentPane(nc);
+        nc.setVisible(true);
+        
+        
+    }//GEN-LAST:event_btnClienteNuevoActionPerformed
+
+    private void btnClienteListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteListarActionPerformed
+        // TODO add your handling code here:
+        //listar los clientes
+    }//GEN-LAST:event_btnClienteListarActionPerformed
+
+    private void btnClienteCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteCancelarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnClienteCancelarActionPerformed
+
+    private void btnClienteModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteModificarActionPerformed
+        
+        pModificarCliente mod = new pModificarCliente();
+        ifVentana.setContentPane(mod);
+       
+    }//GEN-LAST:event_btnClienteModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1907,6 +1974,7 @@ public class frmPresentacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.painter.AlphaPainter alphaPainter1;
     private javax.swing.JButton btnClienteActualizar;
     private javax.swing.JButton btnClienteCancelar;
     private javax.swing.JButton btnClienteCancelarModificar;
@@ -1945,6 +2013,7 @@ public class frmPresentacion extends javax.swing.JFrame {
     private javax.swing.JButton btnUsuarioModificarListo;
     private javax.swing.JButton btnUsuarioNuevo;
     private javax.swing.JButton btnUsuarioSalir;
+    private javax.swing.JInternalFrame ifVentana;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -1952,6 +2021,7 @@ public class frmPresentacion extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;

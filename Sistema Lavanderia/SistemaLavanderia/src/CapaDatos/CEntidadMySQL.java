@@ -16,6 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -740,5 +742,101 @@ public class CEntidadMySQL extends CConexionMySQL{
                 
         // Ejecuta el procedimiento almacenado
         cst.execute();
+        
     }
+    public String VerificarProcedimiento(String nombre_procedimiento, Object[][] datos) throws SQLException
+    {
+        String  sentencia= "{call "+nombre_procedimiento;
+        if(datos != null){
+            sentencia=sentencia +" (";
+            for(int i=0; i<datos.length;i++){
+                sentencia=sentencia+"?,";
+            }
+            sentencia= sentencia.substring(0,sentencia.length()-1)+")}";
+        }
+        else
+        {
+            sentencia=sentencia+"}";
+        }
+        try{
+        CallableStatement cst = conexion.prepareCall(sentencia);
+        if(datos!= null)
+        {
+            for(int i=0; i<datos.length;i++)
+            {
+                if(EsVarchar((String) datos[i][0]))
+                {
+                    cst.setString(i+1, (String) datos[i][1]);
+                }
+                else
+                {
+                    cst.setInt(i+1, (int) datos[i][1]);
+                }
+            }
+        }
+        //cst.registerOutParameter("Usuario", Types.ARRAY);   
+        // Ejecuta el procedimiento almacenado
+        cst.execute();
+        ResultSet Resul = cst.getResultSet();
+        Resul.last();
+        Resul.beforeFirst();
+                //ResultSetMetaData rsmd = Resul.getMetaData();
+                //int numCols = rsmd.getColumnCount();
+                int numFils =Resul.getRow();
+        if(numFils>0){
+            return "Usuario Verificado";
+        }
+        else
+        return "No existe Usuario";
+        }
+        catch(Exception e){JOptionPane.showMessageDialog(null, e);
+        }
+        return "";
+    }
+    public ResultSet llamarProcedimiento(String Nombre,ArrayList<Object> datos) throws ClassNotFoundException, SQLException
+    {
+        String NroInte="";
+        for(int i=0;i<datos.size();i++)
+        {
+            NroInte+="?,";
+        }
+        NroInte="("+NroInte.substring(0, NroInte.length()-1)+")";
+        CallableStatement ConsultaCall=conexion.prepareCall("{call "+Nombre+""+NroInte+"}");
+        for(int i=0;i<datos.size();i++)
+        {
+            ConsultaCall.setObject(i+1,datos.get(i));
+        }
+        ResultSet rs=ConsultaCall.executeQuery();
+        
+        return rs;
+        
+    }
+    public Object[][] ejecutarProcedimiento(String Nombre,ArrayList<Object> datos) throws ClassNotFoundException, SQLException
+    {
+        ResultSet Resul = llamarProcedimiento(Nombre, datos);
+        if(Resul != null){
+            Resul.last();
+            ResultSetMetaData rsmd = Resul.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            int numFils =Resul.getRow();
+            
+            Object obj[][]=null;
+            obj=new Object[numFils][numCols];
+            int j = 0;
+            Resul.beforeFirst();
+            while (Resul.next())
+            {                   
+                for (int i=0;i<numCols;i++)
+                {
+                    obj[j][i]=Resul.getObject(i+1);
+                }
+                j++;
+                break;
+            }
+            return obj;
+        }
+        return null;
+        
+    }
+    // ejecutar procedimiento
 }

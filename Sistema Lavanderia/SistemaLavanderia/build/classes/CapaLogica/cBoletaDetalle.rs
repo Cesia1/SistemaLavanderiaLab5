@@ -1,0 +1,1 @@
+capalogica.cBoletaDetalle

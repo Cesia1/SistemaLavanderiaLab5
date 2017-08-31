@@ -1,16 +1,25 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package CapaLogica;
 
-package capalogica;
-
+import CapaDatos.CEntidadMySQL;
+import CapaDatos.cDatos;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.*;
-import java.time.*;
-import CapaDatos.*;
 
+/**
+ *
+ * @author UNSAAC
+ */
 public class cBoleta {
-    
     public String DocEntrada;
     public String NroBoleta;
     public Date FechaEmision;
@@ -18,53 +27,104 @@ public class cBoleta {
     public String Usuario;
     public String IdCliente;
 
-    
     cDatos oDatos = new cDatos();
     public String Mensaje;
-    public String generarCodigo()
-    {
-        ResultSet oFila = oDatos.TraerDataRow("spuGenerarCodigoEntrada");
-        try {
-            oFila.next();
-            return (String.valueOf(oFila.getInt("codigo")));
-        } catch (SQLException ex) {
-            Logger.getLogger(cBoleta.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Error clase cboleta generar codigo");
-            System.out.println(ex);
-            return null;
-        }
+
+    public cBoleta(cDatos oConexion) {
+        this.oDatos = oConexion;
     }
-    public ResultSet Listar()
+    
+    public String generarCodigo() throws SQLException, ClassNotFoundException
     {
-        return oDatos.TraerDataTable("spuListarBoleta");
+        oDatos.Conectar();
+        ResultSet oFila = oDatos.llamarProcedimiento("spuGenerarCodigoEntrada",null);
+        oDatos.Desconectar();
+        oFila.next();
+        return oFila.getString("Codigo");
     }
-    public ResultSet Caja(LocalTime inicio, LocalTime fin )
+    public ResultSet Listar() throws SQLException, ClassNotFoundException
     {
-        return oDatos.TraerDataTable("spuCaja",inicio,fin);
+        oDatos.Conectar();
+        ResultSet oFila = oDatos.llamarProcedimiento("spuListarBoleta",null);
+        oDatos.Desconectar();
+        return oFila;
     }
-    public ResultSet Buscar(String campo, String contenido)
+    public ResultSet Caja(LocalTime inicio, LocalTime fin ) throws SQLException, ClassNotFoundException
     {
-        return oDatos.TraerDataTable("spuBuscarBoleta", campo, contenido);
+        ArrayList<Object> lis=new ArrayList<>();
+        lis.add(inicio);
+        lis.add(fin);
+        oDatos.Conectar();
+        ResultSet rs= oDatos.llamarProcedimiento("spuCaja",lis);
+        oDatos.Desconectar();
+        return rs;
+    }
+    public ResultSet Buscar(String campo, String contenido) throws SQLException, ClassNotFoundException
+    {
+        ArrayList<Object> lis=new ArrayList<>();
+        lis.add(campo);
+        lis.add(contenido);
+        oDatos.Conectar();
+        ResultSet rs= oDatos.llamarProcedimiento("spuBuscarBoleta",lis);
+        oDatos.Desconectar();
+        return rs;
     }
 
-    public boolean EntregarTicket()
+    public boolean EntregarTicket() throws SQLException, ClassNotFoundException
     {
-        ResultSet oFila = oDatos.TraerDataRow("spuBoleta_Insertar", DocEntrada, Usuario, IdCliente,NroBoleta);
-        try {
-            Mensaje = oFila.getString("Mensaje");
-            return oFila.getString("codError")=="0";
-        } catch (Exception e) {
-            System.out.println("Error en clase cBoleta en Entregar ticket");
-            System.out.println(e);
-        }
+        ArrayList<Object> lis=new ArrayList<>();
+        lis.add(DocEntrada);
+        lis.add(Usuario);
+        lis.add(IdCliente);
+        lis.add(NroBoleta);
+        oDatos.Conectar();
+        ResultSet oFila = oDatos.llamarProcedimiento("spuBoleta_Insertar", lis);
+        oFila.next();
+        int CodError = Integer.parseInt(oFila.getString("CodError"));
+        Mensaje = oFila.getString("Mensaje");
+        oDatos.Desconectar();
+        if (CodError == 0)
+            return true;
+        else
+            return false;
         
     }
-    public void EntregarComprobante()
+    public void EntregarComprobante() throws ClassNotFoundException, SQLException
     {
-        oDatos.Ejecutar("spuEntregarComprobante_Boleta", DocEntrada, NroBoleta, FechaEmision);
+        ArrayList<Object> lis=new ArrayList<>();
+        lis.add(DocEntrada);
+        lis.add(NroBoleta);
+        lis.add(FechaEmision);
+        oDatos.Conectar();
+        oDatos.llamarProcedimiento("spuEntregarComprobante_Boleta", lis);
+        oDatos.Desconectar();
     }
-    public ResultSet BuscarPorCliente(string nomCliente)
+    public ResultSet BuscarPorCliente(String nomCliente) throws SQLException, ClassNotFoundException
     {
-        return oDatos.TraerDataTable("spuBuscarBoletaPorCliente", nomCliente);
+        ArrayList<Object> lis=new ArrayList<>();
+        lis.add(nomCliente);
+        oDatos.Conectar();
+        ResultSet rs= oDatos.llamarProcedimiento("spuBuscarBoletaPorCliente", lis);
+        oDatos.Desconectar();
+        return rs;
+    }
+
+    public Object[][] getDatos() {
+        return oDatos.getValores();
+    }
+
+    public String[] getTitulos() throws SQLException, ClassNotFoundException {
+        oDatos.Conectar();
+        oDatos.CargarCampos();
+        oDatos.CargarValores();
+        String [] result = new String[oDatos.getTitulos().length];
+        for(int i=0; i<oDatos.getTitulos().length;i++){
+            result[i]= (String) oDatos.getTitulos()[i];
+        }
+        return result;
+    }
+
+    public Object[][] getDatos(ResultSet dato) {
+        return oDatos.getValores(dato);
     }
 }

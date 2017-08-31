@@ -1,349 +1,261 @@
-//package capaDatos;
-//import java.io.Serializable;
-//import java.sql.*;
-//import javax.swing.JOptionPane;
-//
-//public abstract class cDatos
-//{
-//    //----------------------------------------------------
-//    //------------atributos
-//    //-------------------------------------------------
-//    //----nombre del servidor
-//    protected String aServidor = "";
-//    //----nombre de la base de datos
-//    protected String aBase = "";
-//    //---cadena de conexion completa
-//    protected String aCadenaConexion = "";
-//    protected String nomClase;
-//    protected String servidor;
-//    protected String baseDatos;
-//    protected String usuario ;
-//    protected String password ;
-//    protected Connection conexion;
-//    protected boolean conectado_bd;
-//    protected boolean existe_bd;
-//    //---interfaz,  que permite el  objeto de conexion desde la clase base 
-//    protected Connection aConexion;
-//
-//    //----------------------------
-//    //---metodos
-//    //-------------------------------------------
-//
-//    //-----------------------constructores-------------------
-//    public cDatos()
-//    {
-//
-//    }
-//
-//    //--------------------propiedades------------------
-//    public String getServidor()
-//    {
-//        return aServidor;
-//    }
-//    public void setServidor(String Servidor)
-//    {
-//        this.aServidor= Servidor;
-//    }
-//    public String getbaseDatos()
-//    {
-//        return baseDatos;
-//    }
-//    public void setbaseDatos(String baseDatos)
-//    {
-//        this.baseDatos= baseDatos;
-//    }
-//    public String getusuario()
-//    {
-//        return usuario;
-//    }
-//    public void setusuario(String usuario)
-//    {
-//        this.usuario= usuario;
-//    }
-//    public String getPassword()
-//    {
-//        return password;
-//    }
-//    public void setPassword(String Password)
-//    {
-//        this.password= Password;
-//    }
-//    public String getBase()
-//    {
-//        return aBase; 
-//    }
-//    public void setBase(String Base)
-//    {
-//        aBase = Base; 
-//    }
-//    public abstract String CadenaConexion();
-//
-//
-//    //---crea y obtiene un objeto para conectarse a la base de datos.
-//    protected Connection conexion() throws SQLException
-//    {
-//        if (null == aConexion)
-//        {
-//            aConexion = CrearConexion(this.CadenaConexion());
-//        }
-//        if (aConexion.isClosed())
-//            conectado_bd= ConectarSQL();
-//        return aConexion;
-//    }
-//        public boolean ConectarSQL()
-//    {
-//        try {
-//            existe_bd= ExisteBD();
-//            if(existe_bd)
-//            {
-//                conectado_bd=true;
-//                return true;
-//            }
-//            else
-//            {
-//                new Exception("No se encuentra la base de datos.");
-//                return false;     
-//            }
-//
-//        } 
-//        catch (Exception e2) {
-//            JOptionPane.showMessageDialog(null,e2);
-//            return false;
-//        }
-//        }
-//        private boolean ExisteBD() {
-//        try {
-//
-//            Class.forName(nomClase);
-//            String url = "jdbc:mysql://"+ getServidor() + "/"+getbaseDatos();
-//
-//            conexion = DriverManager.getConnection(url, getusuario(), getPassword());
-//            java.sql.Statement consultaSQL = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-//            consultaSQL.executeQuery("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA \n"+
-//                                    "WHERE SCHEMA_NAME = '"+baseDatos+"';");
-//            ResultSet rs = consultaSQL.getResultSet();
-//            while (rs.next()) {
-//                if(rs.getString(1).equals(baseDatos))
-//                {
-//                    //conexion.close();// aqui
-//                    return true;
-//                }
-//            }
-//            return false;
-//        } 
-//        catch (Exception e1) {
-//            JOptionPane.showMessageDialog(null,e1);
-//            return false;
-//        }
-//    }
-//
-//    /// <summary>
-//    /// Obtiene un DataSet a partir de una consulta.
-//    /// </summary>
-//    /// <param name="Consulta">Cadena de consulta</param>
-//    /// <returns>DataSet</returns>
-//    public ResultSet TraerDataSet_Consulta(String Consulta)
-//    {
-//        ResultSet mDataSet = null;
-//        this.CrearDataAdapter_Consulta(Consulta).Fill(mDataSet);
-//        return mDataSet;
-//    }
-//
-//
-//    /// <summary>
-//    /// Obtiene un DataSet a partir de un procedimiento almacenado.
-//    /// </summary>
-//    /// <param name="ProcedimientoAlmacenado">Procedimiento Almacenado</param>
-//    /// <returns>DataSet</returns>
-//    public ResultSetMetaData TraerDataSet(String ProcedimientoAlmacenado)
-//    {
-//        ResultSetMetaData mDataSet = null;
-//        this.CrearDataAdapter(ProcedimientoAlmacenado).Fill(mDataSet);
-//        return mDataSet;
-//    }
-//
-//    /// <summary>
-//    /// Obtiene un Dataset a partir de un procedimiento almacenado y sus parametros.
-//    /// </summary>
-//    /// <param name="ProcedimientoAlmacenado">Procedimiento Almacenado</param>
-//    /// <param name="Parametros">Parametros</param>
-//    /// <returns>DataSet</returns>
-//    public ResultSetMetaData TraerDataSet(String ProcedimientoAlmacenado, Object[]... Parametros)
-//    {
-//        ResultSetMetaData mDataSet = null;
-//        this.CrearDataAdapter(ProcedimientoAlmacenado, Parametros).Fill(mDataSet);
-//        return mDataSet;
-//    }
-//
-//    /// <summary>
-//    /// Obiene un DataTable a partir de una consulta.
-//    /// </summary>
-//    /// <param name="Consulta">Consulta</param>
-//    /// <returns></returns>
-//    public ResultSet TraerDataTable_Consulta(String Consulta)
-//    {
-//        return TraerDataSet_Consulta(Consulta).getObject(0);
-//    }
-//
-//    /// <summary>
-//    /// Obiene un DataTable a partir de un procedimiento almacenado.
-//    /// </summary>
-//    /// <param name="ProcedimientoAlmacenado">Procedimiento Almacenado</param>
-//    /// <returns></returns>
-//    public ResultSet TraerDataTable(String ProcedimientoAlmacenado)
-//    {   
-//        return TraerDataSet(ProcedimientoAlmacenado).Tables[0].Copy();
-//    }
-//
-//    /// <summary>
-//    /// Obtiene un DataTable a partir de un procedimiento almacenado y sus parametros.
-//    /// </summary>
-//    /// <param name="ProcedimientoAlmacenado">Procedimiento Almacenado</param>
-//    /// <param name="Parametros">Parametros</param>
-//    /// <returns>DataTable</returns>
-//    /// 
-//    public ResultSet TraerDataTable(String ProcedimientoAlmacenado, Object[]... Parametros)
-//    {
-//        return TraerDataSet(ProcedimientoAlmacenado, Parametros).Tables[0].Copy();
-//    }
-//
-//    /// <summary>
-//    /// Obtiene un DataRow a partir de un procedimiento almacenado
-//    /// </summary>
-//    /// <param name="ProcedimientoAlmacenado">Procedimiento Almacenado</param>
-//    /// <returns>DataRow</returns>
-//    public Object[] TraerDataRow(String ProcedimientoAlmacenado)
-//    {
-//        return TraerDataSet(ProcedimientoAlmacenado).Tables[0].Rows[0];
-//    }
-//
-//    /// <summary>
-//    /// Obtiene un DataRow a partir de un procedimiento almacenado y sus parametros
-//    /// </summary>
-//    /// <param name="ProcedimientoAlmacenado">Procedimiento Almacenado</param>
-//    /// <param name="Parametros">Parametros</param>
-//    /// <returns>DataRow</returns>
-//    public Object[] TraerDataRow(String ProcedimientoAlmacenado, Object[] Parametros...)
-//    {
-//        return TraerDataSet(ProcedimientoAlmacenado,Parametros).Tables[0].Rows[0];
-//    }
-//
-//    /// <summary>
-//    /// Obtiene un valor a partir de un procedimiento almacenado.
-//    /// </summary>
-//    /// <param name="ProcedimientoAlmacenado">Procedimiento Almacenado</param>
-//    /// <returns>Valor Escalar de tipo String</returns>
-//    public String TraerValor(String ProcedimientoAlmacenado)
-//    {
-//        return TraerDataSet(ProcedimientoAlmacenado).Tables[0].Rows[0][0].ToString();
-//    }
-//
-//    /// <summary>
-//    /// obtiene un valor a partir de un procedimiento almacenado y sus parametros
-//    /// </summary>
-//    /// <param name="ProcedimientoAlmacenado">Procedimiento Almacenado</param>
-//    /// <param name="Parametros">Parametros</param>
-//    /// <returns>valor Escalar de tipo String</returns>
-//    public System.String TraerValor(String ProcedimientoAlmacenado, params System.Object[] Parametros)
-//    {
-//        return TraerDataSet(ProcedimientoAlmacenado,Parametros).Tables[0].Rows[0][0].ToString();
-//    }
-//
-//
-//    //-----------------------metodos abstractos------------------------
-//    protected abstract System.Data.IDbConnection CrearConexion(string Cadena);
-//    protected abstract System.Data.IDbCommand Comando(string ProcedimientoAlmacenado);
-//    protected abstract System.Data.IDataAdapter CrearDataAdapter(string ProcedimientoAlmacenado, params System.Object[] Parametros);
-//    protected abstract void CargarParametros(System.Data.IDbCommand Comando, System.Object[] Parametros);
-//
-//    protected abstract System.Data.IDbCommand Comando_Consulta(string Consulta);
-//    protected abstract System.Data.IDataAdapter CrearDataAdapter_Consulta(string Consulta, params System.Object[] Parametros);
-//
-//    //-----------------------mas metodos 1-----------------------
-//    /// <summary>
-//    /// Ejecuta un procedimiento almacenado en la base de datos.
-//    /// </summary>
-//    /// <param name="ProcedimientoAlmacenado">Procedimiento Almacenado</param>
-//    /// <returns>Nro de instrucciones realizadas</returns>
-//    public int Ejecutar(string ProcedimientoAlmacenado)
-//    {
-//        return Comando(ProcedimientoAlmacenado).ExecuteNonQuery();
-//    }
-//
-//    /// <summary>
-//    /// Ejecuta un procedimiento almacenado en la base de datos,utilizando los parametros.
-//    /// </summary>
-//    /// <param name="ProcedimientoAlmacenado">Procedimiento Almacenado</param>
-//    /// <param name="Parametros">Parametros</param>
-//    /// <returns>Nro de instrucciones realizadas</returns>
-//    public int Ejecutar(string ProcedimientoAlmacenado, params System.Object[] Parametros)
-//    {
-//        System.Data.IDbCommand Com = Comando(ProcedimientoAlmacenado);
-//        CargarParametros(Com, Parametros);
-//        int Resp = Com.ExecuteNonQuery();
-//        for (int i = 0; i < Com.Parameters.Count; i++)
-//        {
-//            System.Data.IDbDataParameter Par =
-//                (System.Data.IDbDataParameter)Com.Parameters[i];
-//            if (Par.Direction == System.Data.ParameterDirection.InputOutput ||
-//        Par.Direction == System.Data.ParameterDirection.Output)
-//                Parametros.SetValue(Par.Value, i);
-//        }
-//        return Resp;
-//    }
-//
-//    //------------------------- mas atributos----------------
-//
-//    protected System.Data.IDbTransaction mTransaccion;
-//    protected bool EnTranssaccion = false;
-//
-//    //--------------------mas metodos 2----------------------------
-//
-//    /// <summary>
-//    /// Comienza un transaccion en la base en uso.
-//    /// </summary>
-//    public void IniciarTransaccion()
-//    {
-//        mTransaccion = this.conexion.BeginTransaction();
-//        EnTranssaccion = true;
-//    }
-//    /// <summary>
-//    /// Confirma la transaccion activa.
-//    /// </summary>
-//    public void TerminarTransaccion()
-//    {
-//        try
-//        {
-//            mTransaccion.Commit();
-//        }
-//        catch (System.Exception Ex)
-//        {
-//            throw Ex;
-//        }
-//        finally
-//        {
-//            mTransaccion = null;
-//            EnTranssaccion = false;
-//        }
-//    }
-//
-//    /// <summary>
-//    /// Aborta la transaccion activa.
-//    /// </summary>
-//    public void AbortarTransaccion()
-//    {
-//        try
-//        {
-//            mTransaccion.Rollback();
-//        }
-//        catch (System.Exception Ex)
-//        {
-//            throw Ex;
-//        }
-//        finally
-//        {
-//            mTransaccion = null;
-//            EnTranssaccion = false;
-//        }
-//    }
-//}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package CapaDatos;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Admin
+ */
+public class cDatos {
+    private String aNombreBD;
+    private String aHost;
+    private String aUsuario;
+    private String aContraseña;
+    private String aConsulta;    
+    private String nomClase= "com.mysql.jdbc.Driver";
+    private Connection conexion ;
+    private PreparedStatement PrepararConsultaSQL=null;
+    // joha
+    protected Object[] Titulos;// Nombre de los atributos y su tipo: Tipo_Campo,Nombre_Campo
+    protected Object[][] Valores;// Datos de la tabla
+    public cDatos()
+    {
+        aNombreBD="dblavanderia";
+        aHost="localhost";
+        aUsuario="root";
+        aContraseña="";
+        aConsulta=null;
+    }
+    public cDatos(String pHost,String pNombreBD,String pUsuario,String pContraseña,String pConsulta)
+    {
+        aNombreBD=pNombreBD;
+        aHost=pHost;
+        aUsuario=pUsuario;
+        aContraseña=pContraseña;
+        aConsulta=pConsulta;
+    }
+    public cDatos(String pHost,String pNombreBD,String pUsuario,String pContraseña) {
+        aNombreBD=pNombreBD;
+        aHost=pHost;
+        aUsuario=pUsuario;
+        aContraseña=pContraseña;
+    }
+    public void setNombreBD(String pNombreBD)
+    {
+        aNombreBD=pNombreBD;
+    }
+    public void setHost(String pHost)
+    {
+        aHost=pHost;
+    }
+    public void setUsuario(String pUsuario)
+    {
+        aUsuario=pUsuario;
+    }
+    public void setContraseña(String pContraseña)
+    {
+        aContraseña=pContraseña;
+    }
+    public void setConsulta(String pConsulta)
+    {
+        aConsulta=pConsulta;
+    }
+    public String getNombreBD()
+    {
+        return aNombreBD;
+    }
+    public String getHost()
+    {
+        return aHost;
+    }
+    public String getUsuario()
+    {
+        return aUsuario;
+    }
+    public String getContraseña()
+    {
+        return aContraseña;
+    }
+    public String getConsulta()
+    {
+        return aConsulta;
+    }
+    // joha
+    public Object[] getTitulos(){
+        return Titulos;
+    }
+    public void setTitulos(Object[] campos){
+        this.Titulos= campos;
+    }
+    public Object[][] getValores(){
+        return Valores;
+    }
+    public void setValores(Object[][] valores){
+        this.Valores= valores;
+    }
+    // joha 
+    public void Conectar() throws SQLException, ClassNotFoundException
+    {
+        Class.forName(nomClase);
+        String url = "jdbc:mysql://"+aHost+"/"+aNombreBD+"";
+        conexion =  DriverManager.getConnection(url, aUsuario, aContraseña);
+    }
+    public ResultSet llamarProcedimiento(String Nombre,ArrayList<Object> datos) throws ClassNotFoundException, SQLException
+    {
+        String NroInte="";
+        if(datos==null||datos.size()==0)
+        {
+            NroInte="()";
+        }
+        else{
+            for(int i=0;i<datos.size();i++)
+            {
+                NroInte+="?,";
+            }
+            NroInte="("+NroInte.substring(0, NroInte.length()-1)+")";
+        }
+        CallableStatement ConsultaCall=conexion.prepareCall("{call "+Nombre+""+NroInte+"}");
+        if(datos==null||datos.size()==0);
+        else{
+            for(int i=0;i<datos.size();i++)
+            {
+                ConsultaCall.setObject(i+1,datos.get(i));
+            }
+        }
+        ResultSet rs=ConsultaCall.executeQuery();
+        return rs;
+        
+    }
+    public void Desconectar() throws SQLException
+    {
+        conexion.close();
+    }
+    public void ProcesarConsulta() throws SQLException
+    {
+        Statement consultaSQL =  conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+        consultaSQL.executeUpdate(aConsulta);
+        ResultSet rs =  consultaSQL.getResultSet();
+    }
+    public ResultSet ProcesarConsultaR() throws SQLException
+    {
+        Statement consultaSQL =  conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+        consultaSQL.executeQuery(aConsulta);
+        ResultSet rs =  consultaSQL.getResultSet();
+        return rs;
+    }
+
+    public Object[][] getValores(ResultSet dato) {
+        try{
+            ResultSet Resul = dato;
+        Resul.last();
+        ResultSetMetaData rsmd = Resul.getMetaData();
+        int numCols = rsmd.getColumnCount();
+        int numFils =Resul.getRow();
+        Object obj[][]=null;
+                obj=new Object[numFils][numCols];
+                int j = 0;
+                Resul.beforeFirst();
+                //String linea="";
+                while (Resul.next())
+                {
+                   // linea="";
+                    for (int i=0;i<numCols;i++)
+                    {
+                        obj[j][i]=Resul.getObject(i+1);
+                        //linea=linea+"|"+obj[j][i];
+                    }
+                    j++;
+                }
+                return obj;
+        }
+        catch(Exception e){
+            System.err.println("Se encontro un error en la capa de datos.");
+        }
+        return null;
+    }
+    public void CargarCampos() {
+        
+        try
+        {
+            String consultaSQL=//"use "+ getbaseDatos()+"\n" +
+                                "SELECT DATA_TYPE, COLUMN_NAME\n" +
+                                "FROM INFORMATION_SCHEMA.COLUMNS\n" +
+                                "WHERE TABLE_NAME = '"+"TBoleta"+"'";
+            aConsulta= consultaSQL;
+            
+            ResultSet Resul=ProcesarConsultaR();
+            Resul.last();
+            ResultSetMetaData rsmd = Resul.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            int numFils =Resul.getRow();
+            Object obj[][]=null;
+            obj=new Object[numFils][numCols];
+            int j = 0;
+            Resul.beforeFirst();
+
+            while (Resul.next())
+            {
+                for (int i=0;i<numCols;i++)
+                {
+                    obj[j][i]=Resul.getObject(i+1);
+
+                }
+                j++;
+            }                
+            Valores= obj;
+            //setCampos(obj);
+        }
+        catch(Exception e)
+        {
+            new Exception(e);
+        }
+        
+    }
+    public void CargarValores(){
+        
+        
+            try
+            {
+                String consultaSQL=//"USE "+getbaseDatos()+
+                                    " select * from "+"TBoleta"+"; ";
+                aConsulta= consultaSQL;
+                ResultSet Resul =ProcesarConsultaR();
+                Resul.last();
+                ResultSetMetaData rsmd = Resul.getMetaData();
+                int numCols = rsmd.getColumnCount();
+                int numFils =Resul.getRow();
+                Object obj[][]=null;
+                obj=new Object[numFils][numCols];
+                int j = 0;
+                Resul.beforeFirst();
+                while (Resul.next())
+                {
+                    for (int i=0;i<numCols;i++)
+                    {
+                        obj[j][i]=Resul.getObject(i+1);
+                    }
+                    j++;
+                }
+                setValores(obj);
+            }
+            catch(SQLException e)
+            {
+                JOptionPane.showMessageDialog(null,e);
+            }
+        
+    }
+}
