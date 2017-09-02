@@ -5,7 +5,7 @@
  */
 package CapaLogica;
 
-import CapaDatos.CEntidadMySQL;
+
 import CapaDatos.cDatos;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +27,7 @@ public class cBoleta {
     public String Usuario;
     public String IdCliente;
 
-    cDatos oDatos = new cDatos();
+    cDatos oDatos;// = new cDatos();
     public String Mensaje;
 
     public cBoleta(cDatos oConexion) {
@@ -110,21 +110,30 @@ public class cBoleta {
     }
 
     public Object[][] getDatos() {
+        oDatos.CargarDatosTabla();
         return oDatos.getValores();
     }
 
-    public String[] getTitulos() throws SQLException, ClassNotFoundException {
-        oDatos.Conectar();
-        oDatos.CargarCampos();
-        oDatos.CargarValores();
+    public String[] getTitulos(){
+        try{
+        oDatos.CargarTitulos();
         String [] result = new String[oDatos.getTitulos().length];
         for(int i=0; i<oDatos.getTitulos().length;i++){
             result[i]= (String) oDatos.getTitulos()[i];
         }
         return result;
+        }catch(Exception e){
+            new Exception("Eror:\n"+e);
+            return null;
+        }
     }
 
     public Object[][] getDatos(ResultSet dato) {
-        return oDatos.getValores(dato);
+        try{
+            return oDatos.getValores(dato);
+        }catch(Exception e){
+            new Exception("Error:\n"+e);
+            return null;
+        }
     }
 }

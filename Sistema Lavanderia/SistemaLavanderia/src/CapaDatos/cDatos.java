@@ -20,144 +20,80 @@ import javax.swing.JOptionPane;
  *
  * @author Admin
  */
-public class cDatos {
-    private String aNombreBD;
-    private String aHost;
-    private String aUsuario;
-    private String aContraseña;
-    private String aConsulta;    
-    private String nomClase= "com.mysql.jdbc.Driver";
-    private Connection conexion ;
+public class cDatos extends cConexion{
+
     private PreparedStatement PrepararConsultaSQL=null;
+    private String aNombreTabla;
     // joha
-    protected Object[] Titulos;// Nombre de los atributos y su tipo: Tipo_Campo,Nombre_Campo
+    protected Object[] Titulos;// Nombre de los atributos de la tabla
     protected Object[][] Valores;// Datos de la tabla
-    public cDatos()
-    {
-        aNombreBD="dblavanderia";
-        aHost="localhost";
-        aUsuario="root";
-        aContraseña="";
-        aConsulta=null;
+        
+    protected String PrimaryKey;
+    protected boolean aTitulosCargados=false;
+    protected boolean aValoresCargados=false;
+    protected String aConsulta;
+   
+    public cDatos(String pHost,String pNombreBD,String pUsuario,String pContrasenia) {
+        super(pHost,pNombreBD, pUsuario, pContrasenia);
     }
-    public cDatos(String pHost,String pNombreBD,String pUsuario,String pContraseña,String pConsulta)
-    {
-        aNombreBD=pNombreBD;
-        aHost=pHost;
-        aUsuario=pUsuario;
-        aContraseña=pContraseña;
+    public cDatos(String pHost,String pNombreBD,String pUsuario,String pContrasenia,String pTabla){
+        super(pHost,pNombreBD, pUsuario, pContrasenia);
+        if(pTabla!= null){
+            aNombreTabla= pTabla;
+        }
+    }
+    public cDatos(String pHost,String pUsuario,String pContrasenia,String pNombreBD,String pTabla,String pConsulta){
+        super(pHost,pNombreBD, pUsuario, pContrasenia);
+        if(pTabla!= null){
+            aNombreTabla= pTabla;
+        }
         aConsulta=pConsulta;
     }
-    public cDatos(String pHost,String pNombreBD,String pUsuario,String pContraseña) {
-        aNombreBD=pNombreBD;
-        aHost=pHost;
-        aUsuario=pUsuario;
-        aContraseña=pContraseña;
-    }
-    public void setNombreBD(String pNombreBD)
+    
+    public String getNombreTabla()
     {
-        aNombreBD=pNombreBD;
+        return aNombreTabla;
     }
-    public void setHost(String pHost)
+    public void setNombreTabla(String pNombreTabla)
     {
-        aHost=pHost;
+        aNombreTabla=pNombreTabla;
     }
-    public void setUsuario(String pUsuario)
+    
+    public String getConsulta()
     {
-        aUsuario=pUsuario;
-    }
-    public void setContraseña(String pContraseña)
-    {
-        aContraseña=pContraseña;
+        return aConsulta;
     }
     public void setConsulta(String pConsulta)
     {
         aConsulta=pConsulta;
     }
-    public String getNombreBD()
-    {
-        return aNombreBD;
-    }
-    public String getHost()
-    {
-        return aHost;
-    }
-    public String getUsuario()
-    {
-        return aUsuario;
-    }
-    public String getContraseña()
-    {
-        return aContraseña;
-    }
-    public String getConsulta()
-    {
-        return aConsulta;
-    }
+    
     // joha
     public Object[] getTitulos(){
-        return Titulos;
+        if(aTitulosCargados){
+            return Titulos;
+        }
+        else{
+            new Exception("No se ha cargado los atributos de la tabla.");
+            return null;
+        }
     }
     public void setTitulos(Object[] campos){
         this.Titulos= campos;
     }
     public Object[][] getValores(){
-        return Valores;
+        if(aValoresCargados){
+            return Valores;
+        }
+        else{
+            new Exception("No se ha cargado los datos de la tabla.");
+            return null;
+        }
     }
     public void setValores(Object[][] valores){
         this.Valores= valores;
     }
-    // joha 
-    public void Conectar() throws SQLException, ClassNotFoundException
-    {
-        Class.forName(nomClase);
-        String url = "jdbc:mysql://"+aHost+"/"+aNombreBD+"";
-        conexion =  DriverManager.getConnection(url, aUsuario, aContraseña);
-    }
-    public ResultSet llamarProcedimiento(String Nombre,ArrayList<Object> datos) throws ClassNotFoundException, SQLException
-    {
-        String NroInte="";
-        if(datos==null||datos.size()==0)
-        {
-            NroInte="()";
-        }
-        else{
-            for(int i=0;i<datos.size();i++)
-            {
-                NroInte+="?,";
-            }
-            NroInte="("+NroInte.substring(0, NroInte.length()-1)+")";
-        }
-        CallableStatement ConsultaCall=conexion.prepareCall("{call "+Nombre+""+NroInte+"}");
-        if(datos==null||datos.size()==0);
-        else{
-            for(int i=0;i<datos.size();i++)
-            {
-                ConsultaCall.setObject(i+1,datos.get(i));
-            }
-        }
-        ResultSet rs=ConsultaCall.executeQuery();
-        return rs;
-        
-    }
-    public void Desconectar() throws SQLException
-    {
-        conexion.close();
-    }
-    public void ProcesarConsulta() throws SQLException
-    {
-        Statement consultaSQL =  conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-        consultaSQL.executeUpdate(aConsulta);
-        ResultSet rs =  consultaSQL.getResultSet();
-    }
-    public ResultSet ProcesarConsultaR() throws SQLException
-    {
-        Statement consultaSQL =  conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-        consultaSQL.executeQuery(aConsulta);
-        ResultSet rs =  consultaSQL.getResultSet();
-        return rs;
-    }
-
+    
     public Object[][] getValores(ResultSet dato) {
         try{
             ResultSet Resul = dato;
@@ -187,53 +123,46 @@ public class cDatos {
         }
         return null;
     }
-    public void CargarCampos() {
-        
+    public void CargarTitulos() {
         try
         {
-            String consultaSQL=//"use "+ getbaseDatos()+"\n" +
-                                "SELECT DATA_TYPE, COLUMN_NAME\n" +
+            if(getConectadoBD()){
+                aConsulta= "SELECT COLUMN_NAME\n" +
                                 "FROM INFORMATION_SCHEMA.COLUMNS\n" +
                                 "WHERE TABLE_NAME = '"+"TBoleta"+"'";
-            aConsulta= consultaSQL;
             
-            ResultSet Resul=ProcesarConsultaR();
-            Resul.last();
-            ResultSetMetaData rsmd = Resul.getMetaData();
-            int numCols = rsmd.getColumnCount();
-            int numFils =Resul.getRow();
-            Object obj[][]=null;
-            obj=new Object[numFils][numCols];
-            int j = 0;
-            Resul.beforeFirst();
-
-            while (Resul.next())
-            {
-                for (int i=0;i<numCols;i++)
+                ResultSet Resul=ProcesarConsultaR(aConsulta);
+                Resul.last();
+                int numFils =Resul.getRow();
+                Object obj[]=null;
+                obj=new Object[numFils];
+                int j = 0;
+                Resul.beforeFirst();
+                while (Resul.next())
                 {
-                    obj[j][i]=Resul.getObject(i+1);
-
-                }
-                j++;
-            }                
-            Valores= obj;
-            //setCampos(obj);
+                    obj[j]=Resul.getObject(1);
+                    j++;
+                }                
+                setTitulos(obj);
+                aTitulosCargados=true;
+            }
+            else{
+                new Exception("Error al cargar los atributos de la tabla.");
+            }
         }
         catch(Exception e)
         {
-            new Exception(e);
+            JOptionPane.showMessageDialog(null,"Error a nievel de la capa logica.\nDetalle:\n"+e);
         }
         
     }
-    public void CargarValores(){
-        
-        
-            try
-            {
-                String consultaSQL=//"USE "+getbaseDatos()+
-                                    " select * from "+"TBoleta"+"; ";
+    public void CargarDatosTabla(){
+        try
+        {
+            if(getConectadoBD() & getNombreTabla()!= null){
+                String consultaSQL= " select * from "+getNombreTabla()+"; ";
                 aConsulta= consultaSQL;
-                ResultSet Resul =ProcesarConsultaR();
+                ResultSet Resul =ProcesarConsultaR(aConsulta);
                 Resul.last();
                 ResultSetMetaData rsmd = Resul.getMetaData();
                 int numCols = rsmd.getColumnCount();
@@ -251,11 +180,16 @@ public class cDatos {
                     j++;
                 }
                 setValores(obj);
+                aValoresCargados=true;
             }
-            catch(SQLException e)
-            {
-                JOptionPane.showMessageDialog(null,e);
+            else{
+                new Exception("Error al cargar los datos de la tabla.");
             }
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null,e);
+        }
         
     }
 }
