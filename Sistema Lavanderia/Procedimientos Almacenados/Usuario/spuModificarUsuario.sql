@@ -1,21 +1,23 @@
-/*Nombre:			spuModificarUsuario
-Proposito:			Medifica valores de en la Tabla TEspecialidad
-Parametros entrada:	@IdEspecialida, @Denominacion
-Parametros salida:	---	*/
-DROP PROCEDURE IF EXISTS spuModificarUsuario;  
-DELIMITER $$
-create procedure spuModificarUsuario (Usuario_ varchar(50),
+use dblavanderia;
+delimiter $
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spuModificarUsuario`(Usuario_ varchar(50),
 									 Nombres_ varchar(25),
 									 Apellidos_ varchar(50),
 									 Telefono_ varchar(9),
 									 Direccion_ varchar(25),
 									 Habilitado_ bit)
 begin
+	declare CodError varchar(2);
+    declare Mensaje varchar(40);
 	if exists(select * from TUsuario where Usuario=Usuario_) THEN
 		update TUsuario set Nombres=Nombres_,  Apellidos=Apellidos_,Direccion=Direccion_,Telefono=Telefono_, Habilitado=Habilitado_ where Usuario=Usuario_;
-		select CodError=0,Mensaje='Se modifico el Usuario';
+		
+        set CodError='1';
+        set Mensaje='Se modifico el Usuario';
+        select CodError,Mensaje;
 	else
-		select CodError=1,Mensaje='No existe el Usuario';
+		set CodError='0';
+        set Mensaje='El usuario no existe';
+        select CodError,Mensaje;
 	end IF;
-END$$
-DELIMITER ;
+END $

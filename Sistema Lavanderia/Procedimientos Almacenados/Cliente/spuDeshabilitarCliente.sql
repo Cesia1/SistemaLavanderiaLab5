@@ -1,12 +1,6 @@
-/*Nombre:			spuDeshabilitarCliente
-Proposito:			Deshabilitar Clientes
-Parametros entrada:	IdCliente
-Parametros salida:	Sin Salida */
-
-DROP PROCEDURE IF EXISTS spuDeshabilitarCliente;  
-DELIMITER $$
-create procedure spuDeshabilitarCliente (IdCliente_ varchar(6))
+use dblavanderia;
+delimiter $
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spuDeshabilitarCliente`(in aIdCliente varchar(10))
 begin
-	update TCliente set Estado=0 where IdCliente=IdCliente;
-END$$
-DELIMITER ;
+	update TCliente set Estado=0 where IdCliente=aIdCliente;
+end $

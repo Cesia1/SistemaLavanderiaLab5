@@ -1,16 +1,18 @@
-/*Nombre:			spuListarUsuarioEspecial
-Parametros entrada:	---
-Parametros salida:	Registro */
-DROP PROCEDURE IF EXISTS spuModificarContrasenia;  
-DELIMITER $$
-create procedure spuModificarContrasenia (Usuario_ varchar(50),
+use dblavanderia;
+delimiter $
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spuModificarContrasenia`(Usuario_ varchar(50),
 									Contrasenia_ varchar(8000))
 begin
+	declare CodError varchar (2);
+    declare Mensaje varchar(40);
 	if exists(select * from TUsuario where Usuario=Usuario_) THEN
 		update TUsuario set Contrasenia=Contrasenia_ where Usuario=Usuario_;
-		select CodError=0,Mensaje='Se modifico la contrasenia';
-	else
-		select CodError=1,Mensaje='No existe el usuario';
-	end if;
-END$$
-DELIMITER ;
+        set CodError='1';
+        set Mensaje='Se modifico la contrasenia';
+		select CodError, Mensaje;
+    else
+        set CodError='0';
+        set Mensaje='No existe el usuario';
+		select CodError, Mensaje;
+    end if;
+END $

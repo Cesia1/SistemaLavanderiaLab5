@@ -1,11 +1,4 @@
-/* Nombre:			spuBuscarUsuario
-Proposito:			Busca un valor de  la Tabla TEspecialidad
-Parametros entrada:	@IdEspecialidad
-Parametros salida:	Registro */
-
-DROP PROCEDURE IF EXISTS spuCrearBD;  
-DELIMITER $$
-create procedure spuBuscarUsuario (Campo_ varchar(50), 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spuBuscarUsuario`(Campo_ varchar(50), 
 									  Contenido_ varchar(50))
 begin
 	if(Campo_='Nombres') then
@@ -26,5 +19,4 @@ begin
 	if(Campo_='Correo') then
 		select DNI,Apellidos,Nombres,Telefono,Direccion,Correo,Cargo,Habilitado  from TUsuario  where Correo REGEXP Contenido_+'%';
 	end if;
-END$$
-DELIMITER ;
+END

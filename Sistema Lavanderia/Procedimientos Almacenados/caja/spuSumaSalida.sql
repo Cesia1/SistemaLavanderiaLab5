@@ -1,3 +1,4 @@
+use dblavanderia;
 delimiter $
 create procedure spuSumaSalida (
 in aFechaInicio datetime,
@@ -13,5 +14,4 @@ begin
 	group by B.DocSalida) F;
 end $
 
-#execute spuSumaSalida '01/07/2015','31/07/2015';
 delimiter ;

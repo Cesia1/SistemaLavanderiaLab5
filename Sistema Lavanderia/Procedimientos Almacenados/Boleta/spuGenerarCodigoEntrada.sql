@@ -1,5 +1,6 @@
+use dblavanderia;
 delimiter $
-create procedure spuGenerarCodigoEntrada()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spuGenerarCodigoEntrada`()
 begin
 	declare aultBoleta int default 0;
 	declare aultFactura int default 0;
@@ -26,5 +27,3 @@ begin
 	end if;
 	select aSgte as codigo; 
 	end $
-#drop procedure spuGenerarCodigoEntrada
-delimiter ;

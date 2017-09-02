@@ -1,3 +1,4 @@
+use dblavanderia;
 delimiter $
 create procedure spuBoleta_Detalle_Recuperar(
 in adocEntrada varchar(6),
@@ -9,4 +10,3 @@ begin
 	on b.idPrenda = p.idPrenda
 	where DocEntrada = adocEntrada and NroBoleta = anroBoleta;
 end $
-delimiter ;

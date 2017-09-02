@@ -1,14 +1,18 @@
-/*Nombre: spuInsertarUsuario
-Proposito: Insertar un elemento a la tabla usuario*/
-DROP PROCEDURE IF EXISTS spuVerificarUsuario;  
-DELIMITER $$
-create procedure spuVerificarUsuario (Usuario_ varchar(50),
-									Contrasenia_ varchar(100))
+use dblavanderia;
+delimiter $
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spuVerificarUsuario`(IN Usuario_ varchar(50),
+									IN Contrasenia_ varchar(100)
+                                    )
 begin
-	if not exists (select * from	TUsuario where Usuario=Usuario_ and Contrasenia=Contrasenia_) then
-		select CodError=0, Mensaje='El usuario existe';
+	declare CodError VARCHAR(2);
+	declare Mensaje varchar(50);
+	if  exists (select * from	TUsuario where Usuario=Usuario_ and Contrasenia=Contrasenia_) then
+		set CodError='1';
+        set Mensaje='El usuario existe';
+SELECT CodError, Mensaje;
 	else
-		select CodError=1, Mensaje='El usuario  no existe';
+		set CodError='0';
+        set Mensaje='El usuario no existe';
+SELECT CodError, Mensaje;
 	end if;
-END$$
-DELIMITER ;
+END $

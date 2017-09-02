@@ -1,18 +1,18 @@
-/*Nombre:			spuEliminarCliente
-Proposito:			Elimina un valor de  la Tabla TEspecialidad
-Parametros entrada:	@IdEspecialidad
-Parametros salida:	---	*/
 
-DROP PROCEDURE IF EXISTS spuEliminarCliente;  
-DELIMITER $$
-
-create procedure spuEliminarCliente (IdCliente_ varchar(6))
+use dblavanderia;
+delimiter $
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spuEliminarCliente`(in aIdCliente varchar(10))
 begin
-	if exists (select * from TCliente where IdCliente=IdCliente_) THEN
-		delete from TCliente where IdCliente=IdCliente_;
-		select CodError=0,Mensaje='Se elimino el Cliente';
+	declare CodError varchar(2);
+    declare Mensaje varchar(60);
+	if exists (select * from TCliente where IdCliente=aIdCliente) then
+		delete from TCliente where IdCliente=aIdCliente;
+		set CodError='1';
+        set Mensaje='se elimino el cliente';
+        select CodError,Mensaje;
 	else
-		select CodError=1,Mensaje='No existe el Cliente';
-	end IF;
-END$$
-DELIMITER ;
+		set CodError='0';
+        set Mensaje='No existe el cliente';
+        select CodError,Mensaje;
+	end if;
+end $
