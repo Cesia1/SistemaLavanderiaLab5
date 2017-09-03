@@ -62,6 +62,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenuSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exec.png"))); // NOI18N
         jMenuSesion.setText("Sesion");
 
+        mitemCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarSesion.png"))); // NOI18N
         mitemCerrarSesion.setText("Cerrar Sesion");
         mitemCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,6 +71,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         jMenuSesion.add(mitemCerrarSesion);
 
+        miSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/salir.png"))); // NOI18N
         miSalir.setText("Salir");
         miSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,10 +140,10 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void mitemCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitemCerrarSesionActionPerformed
         // TODO add your handling code here:
-        FrmLogin oLogin = new FrmLogin();
-        oLogin.setVisible(true);
+       FrmLogin login= new FrmLogin();
+        login.setVisible(true);
+        login.pack();
         this.setVisible(false);
-        //jDesktopPPantallaInicio.
     }//GEN-LAST:event_mitemCerrarSesionActionPerformed
 
     private void miPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPersonalActionPerformed
@@ -159,7 +161,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void miSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirActionPerformed
         // TODO add your handling code here:
-       
+       this.dispose();
     }//GEN-LAST:event_miSalirActionPerformed
 
     /**

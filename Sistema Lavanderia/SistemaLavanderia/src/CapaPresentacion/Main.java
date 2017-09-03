@@ -5,10 +5,6 @@
  */
 package CapaPresentacion;
 
-/**
- *
- * @author Cesia
- */
 public class Main {
   
     
