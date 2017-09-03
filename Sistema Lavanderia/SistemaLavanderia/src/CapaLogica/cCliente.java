@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,11 +24,16 @@ public class cCliente {
     public String Apellidos ;
     public String Direccion ;
     public String Telefono ;
-    cDatos oDatos = new cDatos();
+    cDatos oDatos;
     public String mensaje;
-    
-    public boolean insertar() throws ClassNotFoundException, SQLException
-    {
+    public cCliente(cDatos oDatos){
+        if(oDatos.getConectadoBD()){
+            oDatos.Conectar();
+        }
+        this.oDatos=oDatos;
+    }
+    public boolean insertar(){
+        try{
         ArrayList<Object> lis=new ArrayList<>();
         lis.add(IdCliente);
         lis.add(DNI);
@@ -35,44 +41,61 @@ public class cCliente {
         lis.add(Apellidos);
         lis.add(Telefono);
         lis.add(Direccion);
-        oDatos.Conectar();
+        //oDatos.Conectar();
         ResultSet oFila = oDatos.llamarProcedimiento("spuInsertarCliente", lis);
         oFila.next();
         int CodError = Integer.parseInt(oFila.getString("CodError"));
         mensaje = oFila.getString("Mensaje");
-        oDatos.Desconectar();
-        if (CodError == 0)
+        //oDatos.Desconectar();
+        if (CodError == 1)
             return true;
-        else
+        else{
+            new Exception(mensaje);
             return false;
-        
+        }
+        }catch(Exception e){
+            new Exception("Error al insertar cliente.\nDetalle: "+e);
+            return false;
+        }
     }
-    public ResultSet Listar() throws ClassNotFoundException, SQLException
-    {
-        oDatos.Conectar();
+    public ResultSet Listar(){
+        try{
+        //oDatos.Conectar();
         ResultSet rs=oDatos.llamarProcedimiento("spuListarCliente",null);
-        oDatos.Desconectar();
+        //oDatos.Desconectar();
         return rs;
+        }catch(Exception e){
+            new Exception("Error al listar clientes.\nDetalle: "+e);
+            return null;
+        }
     }
-    public ResultSet ListarEmpleado() throws SQLException, ClassNotFoundException
-    {
-        oDatos.Conectar();
+    public ResultSet ListarEmpleado(){
+        try{
+        //oDatos.Conectar();
         ResultSet rs=oDatos.llamarProcedimiento("spuListarClienteHabilitado",null);
-        oDatos.Desconectar();
+        //oDatos.Desconectar();
         return rs;
+        }catch(Exception e){
+            new Exception("Error al insertar cliente.\nDetalle: "+e);
+            return null;
+        }
     }
-    public ResultSet Buscar(String Campo,String Contenido) throws SQLException, ClassNotFoundException
-    {
+    public ResultSet Buscar(String Campo,String Contenido){
+        try{
         ArrayList<Object> lis=new ArrayList<>();
         lis.add(Campo);
         lis.add(Contenido);  
-        oDatos.Conectar();
+        //oDatos.Conectar();
         ResultSet rs=oDatos.llamarProcedimiento("spuBuscarCliente",lis);
-        oDatos.Desconectar();
+        //oDatos.Desconectar();
         return rs;
+        }catch(Exception e){
+            new Exception("Error al buscar cliente.\nDetalle: "+e);
+            return null;
+        }
     }
-    public boolean modificar() throws SQLException, ClassNotFoundException
-    {
+    public boolean modificar(){
+        try{
         ArrayList<Object> lis=new ArrayList<>();
         lis.add(IdCliente);
         lis.add(DNI);
@@ -80,40 +103,80 @@ public class cCliente {
         lis.add(Apellidos); 
         lis.add(Telefono);  
         lis.add(Direccion);
-        oDatos.Conectar();
+        //oDatos.Conectar();
         ResultSet oFila = oDatos.llamarProcedimiento("spuModificarCliente", lis);
         oFila.next();
         int CodError = Integer.parseInt(oFila.getString("CodError"));
         mensaje = oFila.getString("Mensaje");
-        oDatos.Desconectar();
-        if (CodError == 0)
+        //oDatos.Desconectar();
+        if (CodError == 1)
             return true;
-        else
+        else{
+            new Exception(mensaje);
             return false;
-      
+        }
+        }catch(Exception e){
+            new Exception("Error al modificar cliente.\nDetalle: "+e);
+            return false;
+        }
     }
-    public boolean deshabilitar() throws ClassNotFoundException, SQLException
-    {
+    public boolean deshabilitar(){
+        try{
         ArrayList<Object> lis=new ArrayList<>();
         lis.add(IdCliente);
         ResultSet oFila = oDatos.llamarProcedimiento("spuDeshabilitarCliente", lis);
         oFila.next();
         int CodError = Integer.parseInt(oFila.getString("CodError"));
         mensaje = oFila.getString("Mensaje");
-        oDatos.Desconectar();
-        if (CodError == 0)
+        //oDatos.Desconectar();
+        if (CodError == 1)
             return true;
-        else
+        else{
+            new Exception(mensaje);
             return false;
-        
+        }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Error al insertar cliente.\nDetalle: "+e);
+            return false;
+        }
     }
-    public String generarCodigo() throws SQLException, ClassNotFoundException
-    {
-        oDatos.Conectar();
+    public String generarCodigo() throws SQLException, ClassNotFoundException{
+        try{
+        //oDatos.Conectar();
         ResultSet rs=oDatos.llamarProcedimiento("spuGenerarCodigoCliente", null);
-        oDatos.Desconectar();
+        //oDatos.Desconectar();
         rs.next();
         String Codigo=rs.getString("@Sgte");
         return Codigo;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Error al generar codigo del cliente.\nDetalle: "+e);
+            return null;
+        }
+    }
+    public Object[][] getDatos() {
+        oDatos.CargarDatosTabla();
+        return oDatos.getValores();
+    }
+
+    public String[] getTitulos(){
+        try{
+        oDatos.CargarTitulos();
+        String [] result = new String[oDatos.getTitulos().length];
+        for(int i=0; i<oDatos.getTitulos().length;i++){
+            result[i]= (String) oDatos.getTitulos()[i];
+        }
+        return result;
+        }catch(Exception e){
+            new Exception("Eror:\n"+e);
+            return null;
+        }
+    }
+    public Object[][] getDatos(ResultSet dato) {
+        try{
+            return oDatos.getValores(dato);
+        }catch(Exception e){
+            new Exception("Error:\n"+e);
+            return null;
+        }
     }
 }
