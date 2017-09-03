@@ -5,7 +5,7 @@
  */
 package CapaLogica;
 
-import CapaDatos.CEntidadMySQL;
+import CapaDatos.*;
 import java.util.ArrayList;
 
 /**
@@ -13,9 +13,10 @@ import java.util.ArrayList;
  * @author joha
  */
 public class cSeguridad {
-    CEntidadMySQL oDatos;
-    public cSeguridad(){
-        oDatos= new CEntidadMySQL("dblavanderia", "localhost", "root", "", "TProducto");
+    cDatos oDatos;
+    public cSeguridad(cDatos oDatos){
+        //oDatos= new CEntidadMySQL("dblavanderia", "localhost", "root", "", "TProducto");
+        this.oDatos=oDatos;
     }
         public void SacarBackup(String Direccion, String Nombres)
         {

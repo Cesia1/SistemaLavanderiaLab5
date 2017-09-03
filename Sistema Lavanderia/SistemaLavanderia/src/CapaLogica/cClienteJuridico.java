@@ -12,12 +12,17 @@ public class cClienteJuridico {
     public String Direccion ;
     public String Telefono ;
     public String Rubro ;
-    cDatos oDatos = new cDatos();
+    cDatos oDatos;// = new cDatos();
     public String mensaje;
-    public boolean insertar()
-    {
+    public cClienteJuridico(cDatos pDatos){
+        
+        if(!pDatos.getConectadoBD()){
+            pDatos.Conectar();
+        }
+        oDatos=pDatos;
+    }
+    public boolean insertar(){
         try {
-            
             ArrayList<Object> lis=new ArrayList<>();
             lis.add(IdCliente);
             lis.add(RUC);
@@ -25,24 +30,23 @@ public class cClienteJuridico {
             lis.add(Telefono);
             lis.add(Direccion);
             lis.add(Rubro);
-            
             ResultSet oFila = oDatos.llamarProcedimiento("spuInsertarClJuridico", lis);
-        
             oFila.next();
             int CodError = oFila.getInt("CodError");
             mensaje = oFila.getString("Mensaje");
-            if (CodError == 0)
+            if (CodError == 1)
                 return true;
-            else
+            else{
+                new Exception(mensaje);
                 return false;
+            }
         } catch (Exception e) {
             System.out.println("Error insertar en cClienteJuridico");
             System.out.println(e);
             return false;
         }
     }
-    public ResultSet Listar()
-    {
+    public ResultSet Listar(){
         try{
         return oDatos.llamarProcedimiento("spuListarClJuridico",null);
         } catch (Exception e) {

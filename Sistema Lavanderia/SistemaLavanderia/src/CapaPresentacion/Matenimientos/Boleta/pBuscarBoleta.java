@@ -24,7 +24,6 @@ public class pBuscarBoleta extends javax.swing.JPanel {
      */
     public pBuscarBoleta() {
         initComponents();
-        
         CargarDatosTabla(null);
     }
 
@@ -154,17 +153,15 @@ public class pBuscarBoleta extends javax.swing.JPanel {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        //this. = DialogResult.OK;
         this.mensaje= JOptionPane.showConfirmDialog(null, "Desea Aceptar?");
         JOptionPane.showMessageDialog(null, "el mensaje es: "+mensaje);
-        //JOptionPane.showConfirmDialog(rootPane, evt);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.show(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
-private void CargarDatosTabla(ResultSet dato) {
+    private void CargarDatosTabla(ResultSet dato) {
         try{
             Object datos[][];
             String titulos[];
@@ -180,8 +177,7 @@ private void CargarDatosTabla(ResultSet dato) {
             dtmEjemplo = new DefaultTableModel(datos,titulos);
             tbBoleta.setModel(dtmEjemplo);
         }
-        catch(Exception e)
-        {
+        catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error:"+e);
         }
         
