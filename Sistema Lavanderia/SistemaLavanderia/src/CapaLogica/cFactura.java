@@ -17,8 +17,11 @@ public class cFactura {
     public boolean Entregado ;
     public String Usuario ;
     public String IdCliente ;
-    CEntidadMySQL oDatos;
+    cConexion oDatos;
     public String mensaje;
+    public cFactura(){
+        oDatos=new cConexion("localhost", "dblavanderia", "root", "12345");
+    }
     public boolean EntregarTicket()
     {
         ArrayList<Object> datosEnvio = new ArrayList<Object>();
@@ -30,9 +33,9 @@ public class cFactura {
         ResultSet oFila = oDatos.llamarProcedimiento("spuFactura_Insertar", datosEnvio);
         
             oFila.next();
-            int CodError = oFila.getInt("CodError");
+            String CodError = oFila.getString("CodError");
             mensaje = oFila.getString("Mensaje");
-            if (CodError == 0)
+            if (CodError == "1")
                 return true;
             else
                 return false;
