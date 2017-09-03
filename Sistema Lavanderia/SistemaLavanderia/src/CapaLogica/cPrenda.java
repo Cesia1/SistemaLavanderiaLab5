@@ -6,6 +6,7 @@
 package CapaLogica;
 
 import CapaDatos.*;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 public class cPrenda {
     public int IdPrenda ;
     public String Descripcion;
-    CEntidadMySQL oDatos;
+    cConexion oDatos;
     public String mensaje;
     // metodos
     public int IdPrenda() { return IdPrenda; }
@@ -24,7 +25,7 @@ public class cPrenda {
     public String Descripcion() { return Descripcion;}
     public void Descripcion(String Descripcion) { this.Descripcion= Descripcion; }
     public cPrenda(){
-        oDatos = new CEntidadMySQL("dblavenderia", "localhost", "root", "", "TPrenda");        
+        oDatos = new cConexion("localhost:3306", "dblavanderia", "root", "12345");        
     }
     
         public boolean insertar()
@@ -32,41 +33,48 @@ public class cPrenda {
             try{
             ArrayList<Object> datosEnvio = new ArrayList<Object>();
             datosEnvio.add(Descripcion);
-            Object [][]oFila = oDatos.ejecutarProcedimiento("spuInsertarPrenda", datosEnvio);
+            ResultSet rs = oDatos.llamarProcedimiento("spuInsertarPrenda", datosEnvio);
             
-            int CodError = Integer.parseInt((String)oFila[0][1]);
-            mensaje = (String) oFila[0][0];
-            return CodError == 0;
+            String CodError =rs.getString(0);
+            mensaje = rs.getString(1);
+            return CodError == "1";
             }catch(Exception e){
                 System.err.println("error al insertar: "+e);
             }
             return false;
         }
-        public Object[][] Listar()
+        //devuelve un arraylist para agregarlo ya en el frm a la tabla
+        public ArrayList<Object []> Listar()
         {
             try{
-            return oDatos.ejecutarProcedimiento("spuListarPrenda",null);
-            }catch(Exception e){
+                ResultSet r=oDatos.llamarProcedimiento("spuListarPrenda",null);
+                ArrayList<Object []> a=new ArrayList<Object []>();
+                //se le pone el tamaño de columnas de la tabla
+                a=oDatos.DevolverTabla(r, 2);
+                return a;
+            }
+            catch(Exception e){
                 System.err.println("error al listar: "+e);
             }
             return null;
         }
-        public Object[][] ListarEmpleado()
+        public ArrayList<Object[]> ListarEmpleado()
         {
             try{
-                return oDatos.ejecutarProcedimiento("spuListarPrendaEmpleado",null);
+                ResultSet r= oDatos.llamarProcedimiento("spuListarPrendaEmpleado",null);
+                return oDatos.DevolverTabla(r,4);
             }catch(Exception e){
             System.err.println("error al listar: "+e);
         }
             return null;
         }
-        public Object[][] Buscar(String Campo, String Contenido)
+        public ResultSet Buscar(String Campo, String Contenido)
         {
             try{
             ArrayList<Object> datosEnvio = new ArrayList<Object>();
             datosEnvio.add(Campo);
             datosEnvio.add(Contenido);
-            return oDatos.ejecutarProcedimiento("spuBuscarPrenda", datosEnvio);
+            return oDatos.llamarProcedimiento("spuBuscarPrenda", datosEnvio);
             }catch(Exception e){
                 System.err.println("error al listar: "+e);
             }
@@ -77,10 +85,10 @@ public class cPrenda {
             try{
             ArrayList<Object> datosEnvio = new ArrayList<Object>();
             datosEnvio.add(IdPrenda);
-            Object[][] oFila = oDatos.ejecutarProcedimiento("spuDeshabilitarPrenda", datosEnvio);
-            int CodError = Integer.parseInt((String) oFila[0][1]);
-            mensaje = (String) oFila[0][1];
-            if (CodError == 0)
+            ResultSet rs = oDatos.llamarProcedimiento("spuDeshabilitarPrenda", datosEnvio);
+            String CodError =rs.getString(0);
+            mensaje = rs.getString(1);
+            if (CodError == "1")
                 return true;
             else
                 return false;
@@ -95,10 +103,10 @@ public class cPrenda {
             ArrayList<Object> datosEnvio = new ArrayList<Object>();
             datosEnvio.add(getIdPrenda());
             datosEnvio.add(Descripcion());
-            Object[][] oFila = oDatos.ejecutarProcedimiento("spuModificarPrenda", datosEnvio);
-            int CodError = Integer.parseInt((String) oFila[0][1]);
-            mensaje = (String) oFila[0][0];
-            if (CodError == 0)
+            ResultSet rs = oDatos.llamarProcedimiento("spuModificarPrenda", datosEnvio);
+            String CodError = rs.getString(0);
+            mensaje = rs.getString(1);
+            if (CodError == "1")
                 return true;
             else
                 return false;
@@ -112,9 +120,9 @@ public class cPrenda {
             try{
             ArrayList<Object> datosEnvio = new ArrayList<Object>();
             datosEnvio.add(Descripcion);
-            Object[][] oFila = oDatos.ejecutarProcedimiento("spuRecuperarIdPrenda", datosEnvio);
+            ResultSet rs  = oDatos.llamarProcedimiento("spuRecuperarIdPrenda", datosEnvio);
             
-            return Integer.parseInt((String) oFila[0][0]);
+            return Integer.parseInt(rs.getString(0));
             }catch(Exception e){
                 System.err.println("error al listar: "+e);
             }

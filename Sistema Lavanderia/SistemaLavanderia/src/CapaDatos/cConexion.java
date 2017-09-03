@@ -240,4 +240,19 @@ public class cConexion {
         }
         return null;
     }
+    
+    
+    // devuelve una lista de objetos que lo esto agregando en la parte de frmprenda, especificamente en mostrar prenda, checalo
+    public ArrayList<Object []> DevolverTabla(ResultSet r, int a)throws SQLException{
+        ArrayList<Object []> R=new ArrayList<Object []>();
+        int j=0;
+        while(r.next()){
+            Object[] A=new Object[a];
+            for (int i = 0; i < a; i++) {
+                A[j]=(Object)r.getString(i);
+            }
+            R.add(A);
+        }    
+        return R;
+    }
 }
