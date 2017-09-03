@@ -70,7 +70,7 @@ public class frmDeshabilitarPrenda extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("DESHABILITAR PRENDA");
 
-        btnCerrar1.setText("Cambiar Estado");
+        btnCerrar1.setText("Deshabilitar");
         btnCerrar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrar1ActionPerformed(evt);
@@ -114,13 +114,20 @@ public class frmDeshabilitarPrenda extends javax.swing.JPanel {
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_btnCerrarActionPerformed
-    cPrenda oprenda=new cPrenda();
+    
     private void btnCerrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrar1ActionPerformed
         mostrarTabla();
-        if (tPrenda.)
+        int row=tPrenda.getSelectedRow();
+        cPrenda pprenda=new cPrenda();
+        if(tPrenda.getValueAt(row, 2)=="1"){
+            pprenda.Descripcion=tPrenda.getValueAt(row, 1).toString();
+            pprenda.IdPrenda=(int)tPrenda.getValueAt(row, 0);
+            pprenda.deshabilitar();
+        }
         
     }//GEN-LAST:event_btnCerrar1ActionPerformed
     public void mostrarTabla(){
+        cPrenda oprenda=new cPrenda();
         ArrayList<Object []> o= new ArrayList<Object []>();
         o=oprenda.Listar(3);
         //esta instruccion muestra en pantalla los datos cada una de las prendas

@@ -15,9 +15,9 @@ public class cCompra {
     public String Usaurio ;
     public String EmpresaProveedora ;
     
-    CEntidadMySQL oDatos;
+    cConexion oDatos;
     public cCompra(){
-        oDatos= new CEntidadMySQL("dblavanderia", "localhost", "root", "", "TCompra");
+        oDatos= new cConexion("localhost", "dblavanderia", "root", "12345");        
     }
     public String mensaje;
     public boolean insertar()
@@ -30,12 +30,12 @@ public class cCompra {
         datosEnvio.add(Usaurio);
         datosEnvio.add(EmpresaProveedora);
         try {
-        ResultSet oFila = oDatos.llamarProcedimiento("spuInsertarCompra",datosEnvio);
+        ResultSet rs = oDatos.llamarProcedimiento("spuInsertarCompra",datosEnvio);
         
-            oFila.next();
-            int CodError = oFila.getInt("CodError");
-            mensaje = oFila.getString("Mensaje");
-            if (CodError == 0)
+            rs.next();
+            String CodError = rs.getString(0);
+            mensaje = rs.getString(1);
+            if (CodError == "1")
                 return true;
             else
                 return false;
@@ -65,33 +65,10 @@ public class cCompra {
         datosEnvio.add(user);
         return oDatos.llamarProcedimiento("spuBuscarCompras",datosEnvio);
     }
-    /*public DataTable Buscar(string Campo, string Contenido)
+   
+    public ResultSet generarCodigo() throws ClassNotFoundException, SQLException
     {
-        return oDatos.TraerDataTable("spuBuscarCompra", Campo, Contenido);
-    }
-    public bool modificar()
-    {
-        DataRow oFila = oDatos.TraerDataRow("spuModificarCompra", IdCompra,  DNI,Nombres, Apellidos, Telefono,  Direccion);
-        int CodError = int.Parse(oFila["CodError"].ToString());
-        mensaje = oFila["Mensaje"].ToString();
-        if (CodError == 0)
-            return true;
-        else
-            return false;
-    }
-    public bool deshabilitar()
-    {
-        DataRow oFila = oDatos.TraerDataRow("spuDeshabilitarCompra", IdCompra);
-        int CodError = int.Parse(oFila["CodError"].ToString());
-        mensaje = oFila["Mensaje"].ToString();
-        if (CodError == 0)
-            return true;
-        else
-            return false;
-    }*/
-    public String generarCodigo() throws ClassNotFoundException, SQLException
-    {
-        return (String) oDatos.ejecutarProcedimiento("spuGenerarCodigoCompra",null)[0][0];
+        return oDatos.llamarProcedimiento("spuGenerarCodigoCompra",null);
     }
 
 }
