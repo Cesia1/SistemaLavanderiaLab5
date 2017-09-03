@@ -25,7 +25,8 @@ public class cPrenda {
     public String Descripcion() { return Descripcion;}
     public void Descripcion(String Descripcion) { this.Descripcion= Descripcion; }
     public cPrenda(){
-        oDatos = new cConexion("localhost:3306", "dblavanderia", "root", "12345");        
+        //estee es el nuevo modelo para entrar a la cconexion
+        oDatos = new cConexion("localhost", "dblavanderia", "root", "12345");        
     }
     
         public boolean insertar()
@@ -44,13 +45,13 @@ public class cPrenda {
             return false;
         }
         //devuelve un arraylist para agregarlo ya en el frm a la tabla
-        public ArrayList<Object []> Listar()
+        public ArrayList<Object []> Listar(int n)
         {
             try{
                 ResultSet r=oDatos.llamarProcedimiento("spuListarPrenda",null);
                 ArrayList<Object []> a=new ArrayList<Object []>();
                 //se le pone el tamaño de columnas de la tabla
-                a=oDatos.DevolverTabla(r, 2);
+                a=oDatos.DevolverTabla(r, n);
                 return a;
             }
             catch(Exception e){

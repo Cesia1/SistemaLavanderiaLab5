@@ -9,6 +9,7 @@ public class frmMostrarPrenda extends javax.swing.JFrame {
         initComponents();
         //se incializa el model que se refiere a la tabla
         model=(DefaultTableModel) tPrenda.getModel();
+        mostrarTabla();
     }
     //se crea el modelo
     DefaultTableModel model;
@@ -96,7 +97,7 @@ public class frmMostrarPrenda extends javax.swing.JFrame {
     cPrenda oprenda=new cPrenda();
     public void mostrarTabla(){
         ArrayList<Object []> o= new ArrayList<Object []>();
-        o=oprenda.Listar();
+        o=oprenda.Listar(2);
         //esta instruccion muestra en pantalla los datos cada una de las prendas
         //almacenadas previamente en el array.
         for (int i = 0; i <o.size() ; i++) {
