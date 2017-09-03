@@ -28,6 +28,8 @@ public class frmPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jDesktopPPantallaInicio = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuSesion = new javax.swing.JMenu();
@@ -41,8 +43,16 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jmCliente = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jmReportes = new javax.swing.JMenu();
+        jmiRepClientes = new javax.swing.JMenuItem();
+        jmiRepUsuario = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
+
+        jMenuItem4.setText("jMenuItem4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,6 +127,16 @@ public class frmPrincipal extends javax.swing.JFrame {
         jmCliente.add(jMenuItem3);
 
         jMenuBar1.add(jmCliente);
+
+        jmReportes.setText("Reportes");
+
+        jmiRepClientes.setText("Clientes");
+        jmReportes.add(jmiRepClientes);
+
+        jmiRepUsuario.setText("Usuario");
+        jmReportes.add(jmiRepUsuario);
+
+        jMenuBar1.add(jmReportes);
 
         setJMenuBar(jMenuBar1);
 
@@ -200,15 +220,20 @@ public class frmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JDesktopPane jDesktopPPantallaInicio;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenu jMenuMantenimiento;
     private javax.swing.JMenu jMenuSesion;
     private javax.swing.JMenu jmCliente;
+    private javax.swing.JMenu jmReportes;
+    private javax.swing.JMenuItem jmiRepClientes;
+    private javax.swing.JMenuItem jmiRepUsuario;
     private javax.swing.JMenuItem miClientes;
     private javax.swing.JMenuItem miPersonal;
     private javax.swing.JMenuItem miProductos;
