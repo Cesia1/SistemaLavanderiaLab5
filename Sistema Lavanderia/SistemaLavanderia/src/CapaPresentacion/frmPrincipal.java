@@ -30,7 +30,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jDesktopPPantallaInicio = new javax.swing.JDesktopPane();
+        jdpPantallaInicio = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuSesion = new javax.swing.JMenu();
         mitemCerrarSesion = new javax.swing.JMenuItem();
@@ -56,16 +56,16 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jDesktopPPantallaInicio.setBackground(new java.awt.Color(0, 102, 153));
+        jdpPantallaInicio.setBackground(new java.awt.Color(0, 102, 153));
 
-        javax.swing.GroupLayout jDesktopPPantallaInicioLayout = new javax.swing.GroupLayout(jDesktopPPantallaInicio);
-        jDesktopPPantallaInicio.setLayout(jDesktopPPantallaInicioLayout);
-        jDesktopPPantallaInicioLayout.setHorizontalGroup(
-            jDesktopPPantallaInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jdpPantallaInicioLayout = new javax.swing.GroupLayout(jdpPantallaInicio);
+        jdpPantallaInicio.setLayout(jdpPantallaInicioLayout);
+        jdpPantallaInicioLayout.setHorizontalGroup(
+            jdpPantallaInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 936, Short.MAX_VALUE)
         );
-        jDesktopPPantallaInicioLayout.setVerticalGroup(
-            jDesktopPPantallaInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jdpPantallaInicioLayout.setVerticalGroup(
+            jdpPantallaInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 457, Short.MAX_VALUE)
         );
 
@@ -107,6 +107,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenuMantenimiento.add(miProductos);
 
         miClientes.setText("Clientes");
+        miClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miClientesActionPerformed(evt);
+            }
+        });
         jMenuMantenimiento.add(miClientes);
 
         jMenuBar1.add(jMenuMantenimiento);
@@ -145,13 +150,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jDesktopPPantallaInicio)
+                .addComponent(jdpPantallaInicio)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jDesktopPPantallaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jdpPantallaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 31, Short.MAX_VALUE))
         );
 
@@ -169,7 +174,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private void miPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPersonalActionPerformed
         // TODO add your handling code here:
         pNuevoCliente nuevo = new pNuevoCliente();
-        jDesktopPPantallaInicio.add(nuevo);
+        jdpPantallaInicio.add(nuevo);
         nuevo.setVisible(true);
         
     }//GEN-LAST:event_miPersonalActionPerformed
@@ -183,6 +188,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
        this.dispose();
     }//GEN-LAST:event_miSalirActionPerformed
+
+    private void miClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miClientesActionPerformed
+        // TODO add your handling code here:
+        jifCliente cliente = new jifCliente();
+        jdpPantallaInicio.add(cliente);
+        cliente.setVisible(true);
+    }//GEN-LAST:event_miClientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,7 +233,6 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
-    private javax.swing.JDesktopPane jDesktopPPantallaInicio;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -230,6 +241,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenu jMenuMantenimiento;
     private javax.swing.JMenu jMenuSesion;
+    private javax.swing.JDesktopPane jdpPantallaInicio;
     private javax.swing.JMenu jmCliente;
     private javax.swing.JMenu jmReportes;
     private javax.swing.JMenuItem jmiRepClientes;
