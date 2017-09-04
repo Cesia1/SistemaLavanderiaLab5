@@ -5,7 +5,7 @@
  */
 package CapaLogica;
 
-import CapaDatos.CEntidadMySQL;
+import CapaDatos.cConexion;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -22,9 +22,13 @@ public class cFacturaDetalle {
     public double PrecioUnitario;
     public int IdPrenda;
     public String Observacion;
-    CEntidadMySQL oDatos;
+    cConexion oDatos;
     public String Mensaje;
-    // 
+    
+    public cFacturaDetalle(){
+        oDatos=new cConexion("localhost","dblavanderia", "root", "12345");
+    }
+    
     public String getDocEntrada() {
         return DocEntrada; 
     }
@@ -58,10 +62,10 @@ public class cFacturaDetalle {
         datosEnvio.add(Observacion);
         datosEnvio.add(NroFactura);
         try{
-            Object[][] Resultado = oDatos.ejecutarProcedimiento("spuFactura_Detalle_Insertar",datosEnvio);
+            ResultSet r= oDatos.llamarProcedimiento("spuFactura_Detalle_Insertar",datosEnvio);
             
-            Mensaje = (String) Resultado[0][0];
-            return Resultado[0][1] == "0";
+            Mensaje = r.getString(1);
+            return r.getString(0) == "1";
         }catch(Exception e){
             System.err.println("Error en la capa Logica: "+e);
         }
